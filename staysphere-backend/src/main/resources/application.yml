@@ -12,7 +12,7 @@ spring:
       api-key: ${SPRING_AI_OPENAI_API_KEY:dummy-key-for-startup}
   data:
     mongodb:
-      uri: ${MONGODB_URI}
+      uri: ${MONGODB_URI:mongodb+srv://sivakumar_123:sivakumar_123@staysphere.btpyhmh.mongodb.net/staysphere?retryWrites=true&w=majority&appName=Staysphere}
   mail:
     host: ${SMTP_HOST:smtp.gmail.com}
     port: ${SMTP_PORT:587}
