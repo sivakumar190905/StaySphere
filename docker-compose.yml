@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  staysphere-db:
+    image: mongo:7.0
+    container_name: staysphere-db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: staysphere
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  staysphere-backend:
+    build:
+      context: ./staysphere-backend
+      dockerfile: Dockerfile
+    container_name: staysphere-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://staysphere-db:27017/staysphere
+      JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    depends_on:
+      staysphere-db:
+        condition: service_healthy
+
+  staysphere-frontend:
+    build:
+      context: ./hotel booking
+      dockerfile: Dockerfile
+    container_name: staysphere-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - staysphere-backend
+
+volumes:
+  mongo_data:

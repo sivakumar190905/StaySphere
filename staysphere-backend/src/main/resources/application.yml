@@ -1,0 +1,57 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: staysphere-backend
+  ai:
+    openai:
+      api-key: ${SPRING_AI_OPENAI_API_KEY:dummy-key-for-startup}
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://sivakumar_123:sivakumar_1234@staysphere.btpyhmh.mongodb.net/staysphere?retryWrites=true&w=majority&appName=Staysphere}
+  mail:
+    host: ${SMTP_HOST:smtp.gmail.com}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_EMAIL:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# JWT Configuration
+app:
+  frontend:
+    origins: ${CLIENT_URL:http://localhost:5173,http://localhost:3000}
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970} # 256-bit hex-encoded secret key
+    accessTokenExpirationMs: 900000 # 15 minutes
+    refreshTokenExpirationMs: 604800000 # 7 days
+  cloudinary:
+    cloud-name: ${CLOUDINARY_NAME:}
+    api-key: ${CLOUDINARY_API_KEY:}
+    api-secret: ${CLOUDINARY_SECRET:}
+  razorpay:
+    key-id: ${RAZORPAY_KEY:rzp_test_dummykey}
+    key-secret: ${RAZORPAY_SECRET:dummysecret}
+
+# SpringDoc / Swagger UI
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+    operationsSorter: method
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: INFO
+    com.staysphere: DEBUG
